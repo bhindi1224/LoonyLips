@@ -1,11 +1,23 @@
 extends Node2D
 
 var player_words = [] # the words the player chooses
-var prompt = ["an adjective", "a creature", "a name", "another adjective", "a type of monster"]
-var story = "There once was a %s %s slayer named %s.  He was so %s that even the %ss would run from him."
+var template = [
+		{
+		"prompt": ["an adjective (one syllable)", "another adjective (two syllables)", "an animal (one syllable)"],
+		"story": "A %s %s pond...\nA %s jumps into the pond,\nSplash! Silence again."
+		},
+		{
+		"prompt": ["an adjective", "a creature", "a name", "another adjective", "a type of monster"],
+		"story" : "There once was a %s %s slayer named %s.  He was so %s that even the %ss would run from him."
+		}
+		]
+var current_story
+
 
 func _ready():
-	$Blackboard/StoryText.text = "Welcome to Loony Lips!  We are going to have an amazing time together.  If you'll just give me a few words, I'll give you funny stories.  \n\n\nCan I have " + prompt[player_words.size()] + " please?"
+	randomize()
+	current_story = template[randi() % template.size()]
+	$Blackboard/StoryText.text = "Welcome to Loony Lips!  We are going to have an amazing time together.  If you'll just give me a few words, I'll give you funny stories.  \n\n\nCan I have " + current_story.prompt[player_words.size()] + " please?"
 	$Blackboard/TextBox.text = ""
 	
 func _on_TextureButton_pressed():
@@ -21,10 +33,10 @@ func _on_TextBox_text_entered(new_text):
 	check_player_word_length()
 
 func is_story_done():
-	return player_words.size() == prompt.size()
+	return player_words.size() == current_story.prompt.size()
 
 func prompt_player():
-	$Blackboard/StoryText.text = ("Can I have " + prompt[player_words.size()] + ", please?")
+	$Blackboard/StoryText.text = ("Can I have " + current_story.prompt[player_words.size()] + ", please?")
 	
 func check_player_word_length():
 	if is_story_done():
@@ -33,7 +45,7 @@ func check_player_word_length():
 		prompt_player()
 		
 func tell_story():
-	$Blackboard/StoryText.text = story % player_words
+	$Blackboard/StoryText.text = current_story.story % player_words
 	$Blackboard/TextureButton/RichTextLabel.text = "Again!"
 	end_game()
 
