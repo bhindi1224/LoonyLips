@@ -1,0 +1,20 @@
+[
+	{
+		"prompt": [
+			"an adjective (one syllable)",
+			"another adjective (two syllables)",
+			"an animal (one syllable)"
+		],
+		"story": "A %s %s pond...\nA %s jumps into the pond,\nSplash! Silence again."
+	},
+	{
+		"prompt": [
+			"an adjective",
+			"a creature",
+			"a name",
+			"another adjective",
+			"a type of monster"
+		],
+		"story": "There once was a %s %s slayer named %s.  He was so %s that even the %ss would run from him."
+	}
+]
